@@ -1,5 +1,10 @@
 import plotly.graph_objects as go
+import plotly.io as pio
 import pandas as pd
+
+
+# Browser default for rendering
+pio.renderers.default = "browser"
 
 # Read vertically
 source = [0, 0]
