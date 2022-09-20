@@ -34,10 +34,17 @@ class Sankey:
         if self.vals is None:
             self.vals = [1] * len(self.df)
 
+        # Process **kwargs
+        pad = kwargs.get('pad', 50)  # get - grabs dict value if it exists, otherwise returns defined value
+        thickness = kwargs.get('thickness', 30)
+        line_color = kwargs.get('line_color', 'black')
+        line_width = kwargs.get('line_width', 1)
+        
+        # Init link & node dicts
         link = {'source': self.df[self.src],
                 'target': self.df[self.targ],
                 'value': self.df[self.vals]}
-        node = {'label': labels}
+        node = {'label': labels, 'pad': pad, 'thickness': thickness, 'line': {'color': line_color, 'width': line_width}}
 
         sankey: go.Sankey = go.Sankey(link=link, node=node)
         fig: go.Figure = go.Figure(sankey)
