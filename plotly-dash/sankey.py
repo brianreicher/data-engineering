@@ -1,3 +1,5 @@
+#!/Users/brianreicher/opt/anaconda3/envs/ds/bin/python
+
 import plotly.graph_objects as go
 import plotly.io as pio
 
@@ -55,18 +57,10 @@ class Sankey:
         fig: go.Figure = go.Figure(sankey)
         fig.show()
 
-    def run_demo(self):
-        if self.demo_num == 1:
-            self.demo1()
-        elif self.demo_num == 2:
-            self.demo2()
-        elif self.demo_num == 3:
-            self.demo3()
-        else:
-            raise NotImplementedError("Please enter a valid demo number")
-        self.demo3()
+    def __call__(self):
+        getattr(self, f'demo{self.demo_num}')()
 
 
 if __name__ == "__main__":
     sankey_demo = Sankey()
-    sankey_demo.run_demo()
+    sankey_demo()
