@@ -1,66 +1,44 @@
-#!/Users/brianreicher/opt/anaconda3/envs/ds/bin/python
-
+'''Ploty & Pandas wrapper for sankey diagrams'''
+import pandas as pd
 import plotly.graph_objects as go
-import plotly.io as pio
-
-pio.renderers.default = "browser"
 
 
 class Sankey:
-    def __init__(self, demo_num=3):
-        # Browser default for rendering
-        self.demo_num = demo_num
+    def __init__(self, filepath, src, targ, vals=None):
+        self.df = pd.read_csv(filepath)
+        self.src = src
+        self.targ = targ
+        self.vals = vals
 
-    @staticmethod
-    def demo1() -> None:
-        # Read vertically
-        source: list[int] = [0, 0]
-        target: list[int] = [1, 2]
-        value: list[int] = [2, 1]
+    def _code_mapping(self):
+        """Maps labels/strings in self.src and self.targ and
+        converts them into integers"""
 
-        link = {'source': source, 'target': target, 'value': value}
-        sankey = go.Sankey(link=link)
-        fig = go.Figure(sankey)
-        fig.show()
+        # Extract distinct labels
+        labels = sorted(list(set(list(self.df[self.src]) +
+                                 list(self.df[self.targ]))))
 
-    @staticmethod
-    def demo2() -> None:
-        source: list[int] = [0, 0, 3, 3]
-        target: list[int] = [1, 2, 2, 1]
-        value: list[int] = [1, 2, 3, 4]
-        label: list[str] = ['A', 'B', 'C', 'D']
-        link: dict[str, list[int]] = {'source': source, 'target': target, 'value': value}
-        node = {'label': label, 'pad': 15, 'thickness': 35}
+        # define integer codes
+        codes = list(range(len(labels)))
 
-        sankey: go.Sankey = go.Sankey(link=link, node=node)
-        fig: go.Figure = go.Figure(sankey)
-        fig.show()
+        # pair labels with list
+        lc_map = dict(zip(labels, codes))
 
-    @staticmethod
-    def demo3() -> None:
-        source: list[int] = [0, 0, 0, 1, 1, 2, 2, 2]
-        target: list[int] = [3, 4, 5, 3, 5, 3, 4, 5]
-        value = [1, 1, 1, 1, 2, 2, 0.5, 1]
-        label: list[str] = ['Stomach', 'Lung', 'Brain', 'Gx', 'Gy', 'Gz']
+        # in df, substitute codes for labels
+        self.df = self.df.replace({self.src: lc_map, self.targ: lc_map})
+        return labels
 
-        link_colors: list[str] = ['lightgrey'] * 4
-        link_colors[1] = '#E18D32'
-        link_colors[2] = 'rgb(38,105,149)'
-        link = {'source': source, 'target': target, 'value': value, 'color': link_colors}
+    def make_sankey(self):
+        labels = self._code_mapping()
+        if self.vals is None:
+            self.vals = [1] * len(self.df)
 
-        node_colors: list[str] = ['mediumslateblue']*3 + ['palegoldenrod']*3
-        node = {'label': label, 'pad': 100, 'thickness': 35, 'line': {'color': 'black',
-                                                                      'width': 2},
-                                                             'color': node_colors}
+        link = {'source': self.df[self.src],
+                'target': self.df[self.targ],
+                'value': self.df[self.vals]}
+        node = {'label': labels}
 
         sankey: go.Sankey = go.Sankey(link=link, node=node)
         fig: go.Figure = go.Figure(sankey)
         fig.show()
 
-    def __call__(self):
-        getattr(self, f'demo{self.demo_num}')()
-
-
-if __name__ == "__main__":
-    sankey_demo = Sankey()
-    sankey_demo()
