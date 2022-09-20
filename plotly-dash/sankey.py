@@ -1,4 +1,5 @@
-'''Ploty & Pandas wrapper for sankey diagrams'''
+'''Description: Ploty & Pandas wrapper for sankey diagrams'''
+
 import pandas as pd
 import plotly.graph_objects as go
 
@@ -28,7 +29,7 @@ class Sankey:
         self.df = self.df.replace({self.src: lc_map, self.targ: lc_map})
         return labels
 
-    def make_sankey(self):
+    def make_sankey(self, **kwargs):
         labels = self._code_mapping()
         if self.vals is None:
             self.vals = [1] * len(self.df)
