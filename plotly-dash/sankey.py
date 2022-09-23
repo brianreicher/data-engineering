@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 
-class Sankey:
+class Sankey():
     def __init__(self, filepath, src, targ, vals=None):
         self.df = pd.read_csv(filepath)
         self.src = src

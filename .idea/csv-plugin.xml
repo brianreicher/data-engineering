@@ -10,6 +10,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/plotly-dash/data/gad.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>
