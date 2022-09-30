@@ -52,7 +52,7 @@ class Sankey:
         self.df = self.df.replace({self.src: lc_map, self.targ: lc_map})
         return labels
 
-    def make_sankey(self, **kwargs) -> None:
+    def make_sankey(self, **kwargs) -> go.Figure:
         labels = self._code_mapping()
         if self.vals is None:
             self.vals = [1] * len(self.df)
@@ -71,5 +71,10 @@ class Sankey:
 
         sankey: go.Sankey = go.Sankey(link=link, node=node)
         fig: go.Figure = go.Figure(sankey)
+
+        return fig
+
+    def show_sankey(self, **kwargs):
+        fig = self.make_sankey(kwargs)
         fig.show()
 
