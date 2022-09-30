@@ -16,7 +16,8 @@ class Calculator:
         """
         self._name = name
 
-    def add(self, x: int, y: int):
+    @staticmethod
+    def add(x: int, y: int):
         """
             Method to perform addition
 
@@ -25,7 +26,6 @@ class Calculator:
             :param y: int
                 Second integer to add
         """
-        print(f'{self.get_name()} is thinking . . .')
         return x+y
 
     def get_name(self) -> str:
