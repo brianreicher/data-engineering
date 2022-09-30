@@ -1,55 +1,64 @@
 """
 File: profiler.py
 
-Description: code profiler, built in Python3
+Description: a Python3 code profiler using decorators
 """
 
 import time
+from collections import defaultdict
 
 
-class FunctionTimer:
+class Profiler:
+    calls = defaultdict(int)  # function name -> int
+    time = defaultdict(float)  # elapsed time -> float
 
     def __init__(self):
         pass
 
-    @timer
     @staticmethod
-    def squares(n: int) -> list:
-        """
-            Function to compute squares of all integers up to a given value
-
-            :param n: int:
-                Integer, n, to perform squaring operations on
-            :return:
-                List of squared values from 0-n
-        """
-        return [i**2 for i in range(n)]
+    def _add(func_name, sec):
+        Profiler.calls[func_name] += 1
+        Profiler.time[func_name] += sec
 
     @staticmethod
-    def timer(f):
+    def profile(func):
         """
-            Decorator for calculating function result & runtime
-        :param f:
-            Given function to evaluate
+            Code profiler decorator
+        :param func:
+            Given function to profile
         :return:
-            Elapsed function compute time, function result
         """
         def wrapper(*args, **kwargs):
-            start = time.time()
-            val = f(*args, **kwargs)
-            end = time.time()
-            elapsed_time = end - start
-            return elapsed_time, val
+            # grab function name, splitting dict on spaces
+            func_name = str(func).split()[1]
 
+            start = time.time_ns()
+            val = func(*args, **kwargs)
+            finish = time.time_ns()
+
+            elapsed_time = (finish-start)/10 **9
+            Profiler._add(func_name, elapsed_time)
+            return val
         return wrapper
 
+    @staticmethod
+    def report():
+        """
+            Summarize # calls, total runtime, and time/call for each function
+        """
+        print("Function              Calls     TotSec   Sec/Call")
+        for name, num in Profiler.calls.items():
+            sec = Profiler.time[name]
+            print(f'{name:20s} {num:6d} {sec:10.6f} {sec / num:10.6f}')
 
-def main():
-#     print(squares(10000000))
-    pass
 
-
-if __name__ == '__main__':
-    main()
-
+def profile(f) -> None:
+    """
+        Helper function to profile a given function
+    :param f:
+         Function to profile
+    :return:
+        None
+    """
+    Profiler.profile(f)
 
