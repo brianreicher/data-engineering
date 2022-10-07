@@ -70,3 +70,17 @@ WHERE gene_symbol in (
     FROM gad_pubs
     WHERE phenotype='asthma')
 ORDER BY gene_symbol;
+
+SELECT *
+FROM gad_pubs NATURAL JOIN gene;
+
+CREATE VIEW disease_gene_go as
+SELECT DISTINCT gp.phenotype, g.gene_symbol, go.go_term
+FROM gad_pubs gp JOIN gene g USING (gene_symbol) JOIN go USING (gene_id)
+ORDER BY phenotype, go_term, gene_symbol;
+
+CREATE VIEW disease_go as
+SELECT phenotype,go_term, count(*) as num_genes
+FROM disease_gene_go
+GROUP BY phenotype, go_term
+ORDER BY num_genes DESC;
