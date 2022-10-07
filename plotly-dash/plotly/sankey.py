@@ -9,9 +9,11 @@ import plotly.graph_objects as go
 
 
 class Sankey:
-    def __init__(self, filepath, src, targ, vals=None, local=None, phenotype=None):
-        # self.df = pd.read_csv(filepath)
-        self.df = filepath
+    def __init__(self, df, src, targ, vals=None, local=None, phenotype=None):
+        if type(df) is pd.DataFrame:
+            self.df = df
+        else:
+            self.df = pd.read_csv(df)
         self.src = src
         self.targ = targ
         self.vals = vals
@@ -75,6 +77,6 @@ class Sankey:
         return fig
 
     def show_sankey(self, **kwargs):
-        fig = self.make_sankey(kwargs)
+        fig = self.make_sankey(**kwargs)
         fig.show()
 
