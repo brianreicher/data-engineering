@@ -6,13 +6,19 @@ def main():
     account.deposit(25.0)
 
     try:
-        account.withdraw(200.0)
+        account.withdraw(1000.0)
+    except InsufficientFunds as if_error:
+        print(str(if_error))
+        print(f'Overdrawn amount: ${if_error.overage()}')
     except AssertionError as ae:
         print(str(ae))
     except TypeError as te:
         print(str(te))
-
-    print(account.balance)
+    else:
+        print('Code running if no exception occurs')
+    finally:
+        print('Finally clause ALWAYS runs')
+    print(f'Account balance: ${account.balance}')
 
 
 if __name__ == '__main__':
