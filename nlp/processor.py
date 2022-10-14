@@ -4,7 +4,7 @@ import random
 
 class Processor:
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Constructor"""
         self.data = defaultdict(dict)  # extracted data
 
@@ -15,7 +15,7 @@ class Processor:
             'numwords': random.randrange(10, 50)
         }
 
-    def _save_results(self, label, text):
+    def _save_results(self, label, text) -> None:
         for i, j in text.items():
             self.data[i][label] = j
 
@@ -24,7 +24,7 @@ class Processor:
     # results = {'wordcount': wcB. 'numwords': 30}
     # data = {'wordcount': {'A': wcA, 'B':wcB}, 'numwords': {'A':25, 'B':30}}
 
-    def load_text(self, file_name, label=None, parser=None):
+    def load_text(self, file_name, label=None, parser=None) -> None:
         """
         Registers text file with NLP framework
         :param file_name:
