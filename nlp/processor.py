@@ -1,5 +1,6 @@
 from collections import defaultdict, Counter
 import random
+import matplotlib.pyplot as plt
 
 
 class Processor:
@@ -41,3 +42,12 @@ class Processor:
             label = file_name
 
         self._save_results(label, text)
+    
+    def compare_num_words(self):
+        """
+        """
+        num_words = self.data['numwords']
+        for label, nw in num_words.items():
+            plt.bar(label ,nw)
+        plt.show()
+
