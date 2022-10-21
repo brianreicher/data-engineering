@@ -12,8 +12,12 @@ class Stack():
     def push(self, x):
         self._items.append(x)
 
+
     def pop(self):
-        return 0
+        try:
+            return self._items.pop()
+        except IndexError:
+            return None
 
     def top(self):
         if self._items == 0:
