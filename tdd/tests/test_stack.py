@@ -1,10 +1,11 @@
-from dstruct.stack import Stack
+from tdd.dstruct.stack import *
 import pytest
 
 
 @pytest.fixture
 def s():
     return Stack()
+
 
 def test_constructor():
     s = Stack()
@@ -29,4 +30,4 @@ def test_pop() -> None:
     s.push('b')
     assert s.pop() == 'b', "Wrong value popped"
     assert s.pop() == 'a', "Wrong value popped"
-    assert s.pop() == None, "Empty stack has no value"
+    assert s.pop() is None, "Empty stack has no value"

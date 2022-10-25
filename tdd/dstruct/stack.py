@@ -12,7 +12,6 @@ class Stack():
     def push(self, x):
         self._items.append(x)
 
-
     def pop(self):
         try:
             return self._items.pop()
