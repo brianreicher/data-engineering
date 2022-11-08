@@ -17,7 +17,7 @@ def main():
     net: DRV = profit - expenses
     annual_net: DRV = 0.365 * net
 
-    annual_net.plot(title='Annual Net ($000)')
+    annual_net.plot(title='Annual Net ($100,000)')
 
 
 if __name__ == '__main__':
