@@ -11,13 +11,13 @@ def main():
     profit: DRV = 0.25*burgers + 0.5*fries + 1*cokes
 
     # expenses distribution (constant)
-    expenses: DRV = DRV({2500:1.0})
+    expenses: DRV = DRV({2250:1.0})
 
     # profit nets
     net: DRV = profit - expenses
     annual_net: DRV = 0.365 * net
 
-    annual_net.plot(title='Annual Net ($000')
+    annual_net.plot(title='Annual Net ($000)')
 
 
 if __name__ == '__main__':
